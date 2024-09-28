@@ -1,5 +1,9 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/navbar/Navbar";
+import { Toaster } from "@/components/ui/sonner";
+import { auth } from "@/auth";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,10 +15,22 @@ export const metadata = {
   lang: "en",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const session = await auth();
   return (
     <html lang={metadata.lang}>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ThemeProvider
+          defaultTheme="dark"
+          enableSystem={false}
+          attribute="class"
+          forcedTheme="dark"
+        >
+          <Navbar session={session} />
+          <div className="px-10">{children}</div>
+        </ThemeProvider>
+        <Toaster />
+      </body>
     </html>
   );
 }

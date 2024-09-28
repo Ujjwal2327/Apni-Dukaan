@@ -1,4 +1,4 @@
-import { createShop, getShopByEmail, updateShopBasicInfo } from "@/action/shop";
+import { createShop, getShopByEmail, updateShop } from "@/action/shop";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
@@ -33,7 +33,7 @@ export async function GET(request) {
 export async function PUT(request) {
   try {
     const data = await request.json();
-    const shop = await updateShopBasicInfo(data, true);
+    const shop = await updateShop(data, true);
     return NextResponse.json({ shop });
   } catch (error) {
     return NextResponse.json({
