@@ -1,6 +1,18 @@
+import { getShopByEmail } from "@/action/shop";
+import { auth } from "@/auth";
+import AddProjectForm from "@/components/forms/AddProductForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { permanentRedirect } from "next/navigation";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-export default function Shop({ params }) {
+export default async function Shop({ params }) {
+  params.shopName = decodeURIComponent(params.shopName);
+
+  const session = await auth();
+  const userShop = await getShopByEmail(session?.user?.email);
+  if (params.shopName !== userShop.name)
+    permanentRedirect(`/shops/${userShop.name}`);
+
   return (
     <Tabs defaultValue="stock" className="flex flex-col items-center">
       <TabsList>
@@ -11,8 +23,14 @@ export default function Shop({ params }) {
           Add New
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="stock">Stock Content Here</TabsContent>
-      <TabsContent value="add_new">Add New Content Here</TabsContent>
+      <TabsContent value="stock" className="w-full max-w-96">
+        Stock Content Here
+      </TabsContent>
+      <TabsContent value="add_new" className="w-full max-w-[25rem]">
+        <ScrollArea className="h-[calc(100vh-6.5rem)] rounded-lg px-2">
+          <AddProjectForm shop={userShop} />
+        </ScrollArea>
+      </TabsContent>
     </Tabs>
   );
 }

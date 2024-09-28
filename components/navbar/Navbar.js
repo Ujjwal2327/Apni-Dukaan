@@ -7,8 +7,7 @@ import { default_avatar } from "@/constants";
 
 export default function Navbar({ session }) {
   const pathname = usePathname();
-  const { user } = session;
-  console.log("session", session);
+  const user = session?.user;
 
   const excludedRoutes = [
     "/",
