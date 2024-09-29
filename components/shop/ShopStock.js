@@ -137,10 +137,7 @@ export default function ShopStock({ shop }) {
       <div>
         {filteredProducts?.length ? (
           filteredProducts.map((product) => (
-            <div
-              key={product.name}
-              className="flex justify-between p-2 hover:bg-secondary hover:cursor-pointer"
-            >
+            <div key={product.name} className="flex justify-between p-2">
               <div>{product.name}</div>
               <div className="flex gap-5 items-center text-xs">
                 <div>
@@ -154,7 +151,7 @@ export default function ShopStock({ shop }) {
                   <DropdownMenuContent>
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button variant="ghost" className="text-xs w-14 h-6">
+                        <Button variant="ghost" className="w-15 h-7">
                           Edit
                         </Button>
                       </DialogTrigger>
