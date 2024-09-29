@@ -101,6 +101,10 @@ body {
   border-radius: 10px;
 }
 
+.h-screen {
+  height: calc(var(--vh, 1vh) * 100);
+}
+
 /* spinner class */
 .spinner {
   aspect-ratio: 1;

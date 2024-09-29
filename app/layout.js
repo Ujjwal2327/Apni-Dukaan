@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { auth } from "@/auth";
 import { ThemeProvider } from "next-themes";
+import DynamicHeight from "@/components/ui/DynamicHeight";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang={metadata.lang}>
       <body className={inter.className}>
+        <DynamicHeight />
         <ThemeProvider
           defaultTheme="dark"
           enableSystem={false}
