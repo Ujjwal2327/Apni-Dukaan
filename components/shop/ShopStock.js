@@ -166,7 +166,7 @@ export default function ShopStock({ shop }) {
                             you are done.
                           </DialogDescription>
                         </DialogHeader>
-                        <ScrollArea className="h-[calc((var(--vh, 1vh) * 100)-15rem)] rounded-lg px-2">
+                        <ScrollArea className="h-[calc(100vh-15rem)] rounded-lg px-2 py-0">
                           <EditProductForm shop={shop} product={product} />
                         </ScrollArea>
                       </DialogContent>

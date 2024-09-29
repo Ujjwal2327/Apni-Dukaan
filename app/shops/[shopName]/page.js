@@ -32,12 +32,12 @@ export default async function Shop({ params }) {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="stock" className="w-full max-w-96">
-        <ScrollArea className="h-[calc((var(--vh, 1vh) * 100)-6.5rem)] rounded-lg px-2">
+        <ScrollArea className="h-[calc(100vh-7rem)] rounded-lg px-2">
           <ShopStock shop={userShop} />
         </ScrollArea>
       </TabsContent>
       <TabsContent value="add_new" className="w-full max-w-[25rem]">
-        <ScrollArea className="h-[calc((var(--vh, 1vh) * 100)-6.5rem)] rounded-lg px-2">
+        <ScrollArea className="h-[calc(100vh-8rem)] rounded-lg px-2">
           <AddProjectForm shop={userShop} />
         </ScrollArea>
       </TabsContent>
