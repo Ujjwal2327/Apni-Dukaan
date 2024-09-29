@@ -37,7 +37,7 @@ export default async function Shop({ params }) {
         </ScrollArea>
       </TabsContent>
       <TabsContent value="add_new" className="w-full max-w-[25rem]">
-        <ScrollArea className="h-[calc(100vh-8rem)] rounded-lg px-2">
+        <ScrollArea className="h-[calc(100vh-10rem)] rounded-lg px-2">
           <AddProjectForm shop={userShop} />
         </ScrollArea>
       </TabsContent>
