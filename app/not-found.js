@@ -10,7 +10,7 @@ export function generateMetadata() {
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen -m-10 p-10">
+    <div className="flex flex-col items-center justify-center h-screen -m-10">
       <h1 className="text-5xl font-bold text-red-400">404</h1>
       <h2 className="text-3xl font-semibold mb-4 text-gray-100 text-center">
         Page Not Found

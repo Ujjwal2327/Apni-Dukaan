@@ -10,6 +10,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Apni Dukaan",
+  description:
+    "Manage your shop's sales and stock effortlessly with Apni Dukaan. Store product info and analyze trends to boost your business!",
+  keywords:
+    "Apni Dukaan, sales management, stock management, product information, shop management, sales analysis, business performance, inventory tracking, small business tools, retail management, sales trends",
+  url: "https://apni--dukaan.vercel.app/",
+  canonical: "https://apni--dukaan.vercel.app/",
   robots: "index, follow",
   author: "Ujjwal",
   publisher: "Ujjwal",
