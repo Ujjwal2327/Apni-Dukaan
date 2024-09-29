@@ -59,7 +59,6 @@ export async function middleware(request) {
       if (!shopPresent) {
         const currentShop = await fetchShop(session, origin);
         if (currentShop) {
-          console.log(currentShop)
           // console.log("adding cookie");
           response.cookies.set("shop_present", "true", {
             httpOnly: true,

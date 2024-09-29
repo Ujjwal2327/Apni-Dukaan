@@ -13,20 +13,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useState } from "react";
 import Spinner from "../Spinner";
-import { ProductMetric } from "@/constants";
-import { resolveUrl, sanitizeNumberInput } from "@/utils";
+import { isSameObject, resolveUrl, sanitizeNumberInput } from "@/utils";
 import Image from "next/image";
+import { DropdownMenuItem } from "../ui/dropdown-menu";
 
 const FormSchema = z.object({
   name: z
@@ -47,36 +40,40 @@ const FormSchema = z.object({
     .number()
     .int()
     .nonnegative({ message: "Stock count must be a non-negative integer." }),
-  metric: z.enum([ProductMetric.KG, ProductMetric.PIECE, ProductMetric.DOZEN]),
 });
 
-export default function AddProductForm({ shop }) {
+export default function EditProductForm({ shop, product }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: "",
-      image: null,
-      stockCount: 0,
-      metric: ProductMetric.KG,
+      name: product.name || "",
+      image: product.image || null,
+      stockCount: product.stockCount || 0,
     },
   });
 
   async function onSubmit(formdata) {
-    const existingProductNames = shop.products?.map((product) => product.name);
-    if (existingProductNames?.includes(formdata.name)) {
+    if (isSameObject(formdata, form.control._defaultValues))
+      return toast.info("No changes detected.");
+
+    const existingProductNames = shop.products.map((product) => product.name);
+    if (
+      formdata.name != product.name &&
+      existingProductNames.includes(formdata.name)
+    ) {
       return toast.error(
-        "Product name already exists in your shop. Please choose a different name or edit the existing product."
+        "Product name already exists in your shop. Please choose a different name."
       );
     }
 
-    formdata = { ...formdata, shopId: shop.id };
+    formdata = { ...formdata, shopId: shop.id, id: product.id };
     try {
       setLoading(true);
       const response = await fetch("/api/product", {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -86,8 +83,7 @@ export default function AddProductForm({ shop }) {
 
       if (data.product) {
         router.push(`/shops/${shop.name}`);
-        formdata = { ...form.control._defaultValues };
-        toast.success("Product created successfully");
+        toast.success("Product updated successfully");
       } else if (data.error) throw new Error(data.error);
     } catch (error) {
       console.log("Error submitting form:", error.message);
@@ -126,45 +122,25 @@ export default function AddProductForm({ shop }) {
             <FormItem>
               <FormLabel>Stock *</FormLabel>
               <FormControl>
-                <Input
-                  type="number"
-                  placeholder="Stock Count"
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(sanitizeNumberInput(e.target.value));
-                  }}
-                />
+                <div className="flex items-center">
+                  <Input
+                    type="number"
+                    placeholder="Stock Count"
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(sanitizeNumberInput(e.target.value));
+                    }}
+                  />
+                  <span className="text-sm">
+                    {product.metric.toLowerCase()}
+                  </span>
+                </div>
               </FormControl>
               <FormMessage className="dark:text-red-400" />
             </FormItem>
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="metric"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Metric *</FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Metric" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value={ProductMetric.DOZEN}>dozen</SelectItem>
-                    <SelectItem value={ProductMetric.KG}>kg</SelectItem>
-                    <SelectItem value={ProductMetric.PIECE}>piece</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage className="dark:text-red-400" />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="image"
@@ -190,20 +166,23 @@ export default function AddProductForm({ shop }) {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          disabled={loading}
-          className={`w-full font-bold ${loading && "loading"}`}
-          aria-label="register shop name"
-        >
-          {loading ? (
-            <>
-              Loading <Spinner className="size-4 ml-2" />
-            </>
-          ) : (
-            "Add Product"
-          )}
-        </Button>
+
+        <DropdownMenuItem>
+          <Button
+            type="submit"
+            disabled={loading}
+            className={`w-full font-bold ${loading && "loading"}`}
+            aria-label="register shop name"
+          >
+            {loading ? (
+              <>
+                Loading <Spinner className="size-4 ml-2" />
+              </>
+            ) : (
+              "Save Changes"
+            )}
+          </Button>
+        </DropdownMenuItem>
       </form>
     </Form>
   );

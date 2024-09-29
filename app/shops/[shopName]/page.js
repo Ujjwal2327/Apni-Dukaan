@@ -4,14 +4,22 @@ import AddProjectForm from "@/components/forms/AddProductForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { permanentRedirect } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import ShopStock from "@/components/shop/ShopStock";
 
 export default async function Shop({ params }) {
   params.shopName = decodeURIComponent(params.shopName);
 
   const session = await auth();
   const userShop = await getShopByEmail(session?.user?.email);
-  if (params.shopName !== userShop.name)
+  if (!userShop?.name) permanentRedirect("/sign-in");
+  if (params.shopName !== userShop?.name)
     permanentRedirect(`/shops/${userShop.name}`);
+
+  userShop.products.sort((a, b) => {
+    if (a.name < b.name) return -1; // a comes before b
+    if (a.name > b.name) return 1; // a comes after b
+    return 0; // a and b are equal
+  });
 
   return (
     <Tabs defaultValue="stock" className="flex flex-col items-center">
@@ -24,7 +32,9 @@ export default async function Shop({ params }) {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="stock" className="w-full max-w-96">
-        Stock Content Here
+        <ScrollArea className="h-[calc(100vh-6.5rem)] rounded-lg px-2">
+          <ShopStock shop={userShop} />
+        </ScrollArea>
       </TabsContent>
       <TabsContent value="add_new" className="w-full max-w-[25rem]">
         <ScrollArea className="h-[calc(100vh-6.5rem)] rounded-lg px-2">

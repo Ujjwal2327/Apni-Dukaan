@@ -5,8 +5,3 @@ export const ProductMetric = {
   PIECE: "PIECE",
   DOZEN: "DOZEN",
 };
-
-export const ProductActionType = {
-  RESTOCK: "RESTOCK",
-  SALE: "SALE",
-};

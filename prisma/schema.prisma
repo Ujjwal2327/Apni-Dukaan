@@ -27,32 +27,27 @@ enum Metric {
 }
 
 model Product {
-  id             Int              @id @default(autoincrement())
-  name           String
-  image          String?
-  stockCount     Int
-  soldCount      Int              @default(0)
-  metric         Metric
-  historyRecords ProductHistory[]
-  shop           Shop             @relation(fields: [shopId], references: [id])
-  shopId         Int
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  id         Int          @id @default(autoincrement())
+  name       String
+  image      String?
+  stockCount Int
+  soldCount  Int          @default(0) // total sales
+  metric     Metric
+  dailySales DailySales[]
+  shop       Shop         @relation(fields: [shopId], references: [id])
+  shopId     Int
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 
   @@unique([name, shopId])
 }
 
-enum ActionType {
-  SALE
-  RESTOCK
-}
+model DailySales {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+  date      DateTime
+  soldCount Int      @default(0)
 
-model ProductHistory {
-  id         Int        @id @default(autoincrement())
-  product    Product    @relation(fields: [productId], references: [id])
-  productId  Int
-  stockCount Int
-  soldCount  Int
-  actionType ActionType
-  updatedAt  DateTime   @default(now())
+  @@unique([productId, date])
 }
