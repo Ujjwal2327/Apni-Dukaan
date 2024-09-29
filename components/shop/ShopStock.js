@@ -80,14 +80,14 @@ export default function ShopStock({ shop }) {
   }, [salesFilter, shop]);
 
   function handleQueryChange(e) {
-    const val = e.target.value;
+    const val = e.target.value.toLowerCase();
 
     if (!val || !val.length) setFilteredProducts(shop.products);
     else
       setFilteredProducts(
-        shop.products.filter((prod) => prod.name.includes(val))
+        shop.products.filter((prod) => prod.name.toLowerCase().includes(val))
       );
-    setQuery(val);
+    setQuery(e.target.value);
   }
 
   function handleQueryReset() {
