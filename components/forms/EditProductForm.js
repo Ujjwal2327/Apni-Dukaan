@@ -20,6 +20,7 @@ import Spinner from "../Spinner";
 import { isSameObject, resolveUrl, sanitizeNumberInput } from "@/utils";
 import Image from "next/image";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
+import Link from "next/link";
 
 const FormSchema = z.object({
   name: z
@@ -146,7 +147,16 @@ export default function EditProductForm({ shop, product }) {
           name="image"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Image URL</FormLabel>
+              <FormLabel>
+                Image URL{" "}
+                <Link
+                  href="https://postimages.org/"
+                  target="_blank"
+                  className="text-blue-300 text-xs"
+                >
+                  (Upload & Use Direct link)
+                </Link>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Image URL" {...field} />
               </FormControl>
