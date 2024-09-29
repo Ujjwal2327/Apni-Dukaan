@@ -5,3 +5,5 @@ export const ProductMetric = {
   PIECE: "PIECE",
   DOZEN: "DOZEN",
 };
+
+export const appName = "apni_dukaan";

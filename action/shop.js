@@ -1,3 +1,4 @@
+import { appName } from "@/constants";
 import prisma from "@/lib/db";
 import { handleRedisOperation, updateShopCache } from "@/lib/redis";
 import { handleActionError, handleCaughtActionError } from "@/utils";
@@ -6,7 +7,10 @@ export async function getShopByEmail(email, throwable = false) {
   if (!email || !email.trim()) return null;
 
   try {
-    const cacheShop = await handleRedisOperation("get", `shop_email:${email}`);
+    const cacheShop = await handleRedisOperation(
+      "get",
+      `${appName}-email:${email}`
+    );
     if (cacheShop) return JSON.parse(cacheShop);
 
     const shop = await prisma.shop.findUnique({
@@ -39,11 +43,11 @@ export async function getShopByName(shopName, throwable = false) {
   try {
     const cacheEmail = await handleRedisOperation(
       "get",
-      `shop_name:${shopName}`
+      `${appName}-name:${shopName}`
     );
 
     const cacheShop = cacheEmail
-      ? await handleRedisOperation("get", `shop_email:${cacheEmail}`)
+      ? await handleRedisOperation("get", `${appName}-email:${cacheEmail}`)
       : null;
 
     if (cacheShop) return JSON.parse(cacheShop);
@@ -76,7 +80,7 @@ export async function createShop(data, throwable = false) {
   try {
     const cacheEmail = await handleRedisOperation(
       "get",
-      `shop_name:${data.name}`
+      `${appName}-name:${data.name}`
     );
 
     const shopExists = cacheEmail
@@ -124,7 +128,7 @@ export async function updateShop(data, throwable = false) {
   try {
     const cacheShop = await handleRedisOperation(
       "get",
-      `shop_email:${data.email}`
+      `${appName}-email:${data.email}`
     );
 
     const shop = cacheShop
@@ -143,7 +147,7 @@ export async function updateShop(data, throwable = false) {
     if (shop.name !== data.name) {
       const cacheOtherEmail = await handleRedisOperation(
         "get",
-        `shop_name:${data.name}`
+        `${appName}-name:${data.name}`
       );
 
       const sameShopNameExists =

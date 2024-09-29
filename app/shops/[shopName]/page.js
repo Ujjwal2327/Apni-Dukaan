@@ -15,7 +15,7 @@ export default async function Shop({ params }) {
   if (params.shopName !== userShop?.name)
     permanentRedirect(`/shops/${userShop.name}`);
 
-  userShop.products.sort((a, b) => {
+  userShop?.products?.sort((a, b) => {
     if (a.name < b.name) return -1; // a comes before b
     if (a.name > b.name) return 1; // a comes after b
     return 0; // a and b are equal
