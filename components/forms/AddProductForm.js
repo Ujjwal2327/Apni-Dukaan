@@ -24,7 +24,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import Spinner from "../Spinner";
 import { ProductMetric } from "@/constants";
-import { resolveUrl, sanitizeNumberInput } from "@/utils";
+import { capitalizeWords, resolveUrl, sanitizeNumberInput } from "@/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -32,7 +32,8 @@ const FormSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(2, { message: "Product name must be at least 2 characters." }),
+    .min(2, { message: "Product name must be at least 2 characters." })
+    .transform((name) => capitalizeWords(name)),
   image: z
     .string()
     .trim()

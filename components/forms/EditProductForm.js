@@ -16,7 +16,12 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useState } from "react";
 import Spinner from "../Spinner";
-import { isSameObject, resolveUrl, sanitizeNumberInput } from "@/utils";
+import {
+  capitalizeWords,
+  isSameObject,
+  resolveUrl,
+  sanitizeNumberInput,
+} from "@/utils";
 import Image from "next/image";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import Link from "next/link";
@@ -25,7 +30,8 @@ const FormSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(2, { message: "Product name must be at least 2 characters." }),
+    .min(2, { message: "Product name must be at least 2 characters." })
+    .transform((name) => capitalizeWords(name)),
   image: z
     .string()
     .trim()

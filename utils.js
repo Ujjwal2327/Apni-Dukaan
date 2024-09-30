@@ -74,3 +74,10 @@ export function isSameObject(obj1, obj2) {
 
   return true;
 }
+
+export function capitalizeWords(str) {
+  return str
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize the first letter of each word
+    .join(" ");
+}
