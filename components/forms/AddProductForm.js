@@ -32,8 +32,7 @@ const FormSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(2, { message: "Product name must be at least 2 characters." })
-    .transform((name) => name.toLowerCase()),
+    .min(2, { message: "Product name must be at least 2 characters." }),
   image: z
     .string()
     .trim()
