@@ -16,10 +16,10 @@ export default function NotFound() {
         Page Not Found
       </h2>
 
-      <p className="text-lg text-center text-wrap-balance">
+      <p className="text-lg text-center text-balance">
         The page you&apos;re looking for does not exist.
       </p>
-      <p className="text-lg mb-4 text-center text-wrap-balance">
+      <p className="text-lg mb-4 text-center text-balance">
         Please check the URL or return to the homepage.
       </p>
 

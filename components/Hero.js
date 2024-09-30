@@ -37,7 +37,7 @@ export default function Hero() {
 
         <TextGenerateEffect
           words="Empower Your Business with Apni Dukaan"
-          className="text-xl sm:text-2xl font-extrabold text-center text-neutral-300 -mt-4 sm:mt-0 text-wrap-balance"
+          className="text-xl sm:text-2xl font-extrabold text-center text-neutral-300 -mt-4 sm:mt-0 text-balance"
         />
 
         <Suspense fallback={<EmptySpace h="12" />}>
