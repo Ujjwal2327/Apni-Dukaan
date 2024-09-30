@@ -13,7 +13,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useState } from "react";
 import Spinner from "../Spinner";
@@ -45,7 +44,6 @@ const FormSchema = z.object({
 
 export default function EditProductForm({ shop, product }) {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -83,7 +81,7 @@ export default function EditProductForm({ shop, product }) {
       const data = await response.json();
 
       if (data.product) {
-        router.push(`/shops/${shop.name}`);
+        window.location.reload();
         toast.success("Product updated successfully");
       } else if (data.error) throw new Error(data.error);
     } catch (error) {

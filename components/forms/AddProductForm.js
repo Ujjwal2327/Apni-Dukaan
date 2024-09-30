@@ -20,7 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useState } from "react";
 import Spinner from "../Spinner";
@@ -53,7 +52,6 @@ const FormSchema = z.object({
 
 export default function AddProductForm({ shop }) {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -86,7 +84,7 @@ export default function AddProductForm({ shop }) {
       const data = await response.json();
 
       if (data.product) {
-        router.push(`/shops/${shop.name}`);
+        window.location.reload();
         formdata = { ...form.control._defaultValues };
         toast.success("Product created successfully");
       } else if (data.error) throw new Error(data.error);
